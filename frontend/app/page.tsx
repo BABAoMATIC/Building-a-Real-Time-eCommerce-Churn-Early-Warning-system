@@ -50,11 +50,11 @@ export default function HomePage() {
   ]
 
   const handleGetStarted = () => {
-    router.push('/signup')
+    router.push('/signup-simple')
   }
 
   const handleLogin = () => {
-    router.push('/login')
+    router.push('/login-simple')
   }
 
   return (
