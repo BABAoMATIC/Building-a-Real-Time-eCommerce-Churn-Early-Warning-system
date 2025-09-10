@@ -7,11 +7,16 @@ import { useState } from 'react'
 import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
 import Card from '@/components/ui/Card'
+import { useAuth } from '@/contexts/AuthContext'
+import { useNotifications } from '@/hooks/useNotifications'
 
 export default function SignupPage() {
   const router = useRouter()
+  const { register } = useAuth()
+  const { showSuccess, showError } = useNotifications()
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -21,12 +26,48 @@ export default function SignupPage() {
     confirmPassword: ''
   })
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle signup logic here
-    console.log('Signup attempt:', formData)
-    // For now, redirect to dashboard
-    router.push('/dashboard')
+    
+    // Validation
+    if (formData.password !== formData.confirmPassword) {
+      showError('Passwords do not match')
+      return
+    }
+    
+    if (formData.password.length < 6) {
+      showError('Password must be at least 6 characters long')
+      return
+    }
+    
+    if (!formData.email || !formData.firstName || !formData.lastName) {
+      showError('Please fill in all required fields')
+      return
+    }
+    
+    setIsLoading(true)
+    
+    try {
+      const fullName = `${formData.firstName} ${formData.lastName}`
+      const result = await register(
+        formData.email,
+        formData.password,
+        fullName,
+        formData.company
+      )
+      
+      if (result.success) {
+        showSuccess('Account created successfully! Welcome to ChurnGuard!')
+        router.push('/dashboard')
+      } else {
+        showError(result.error || 'Registration failed')
+      }
+    } catch (error) {
+      console.error('Registration error:', error)
+      showError('Registration failed. Please try again.')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -164,8 +205,9 @@ export default function SignupPage() {
               type="submit"
               fullWidth
               className="mt-6"
+              disabled={isLoading}
             >
-              Create Account
+              {isLoading ? 'Creating Account...' : 'Create Account'}
             </Button>
           </form>
 

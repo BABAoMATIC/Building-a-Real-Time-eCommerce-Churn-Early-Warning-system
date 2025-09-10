@@ -81,17 +81,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setIsLoading(true)
       const response = await authApi.login(email, password)
       
-      if (response.success) {
+      if (response.message && response.token) {
         setUser(response.user)
-        setToken(response.access_token)
-        localStorage.setItem('authToken', response.access_token)
-        localStorage.setItem('refreshToken', response.refresh_token)
+        setToken(response.token)
+        localStorage.setItem('authToken', response.token)
         return { success: true, message: response.message }
       } else {
-        return { success: false, message: response.error }
+        return { success: false, message: response.error || 'Login failed' }
       }
-    } catch (error) {
-      return { success: false, message: 'Login failed. Please try again.' }
+    } catch (error: any) {
+      console.error('Login error:', error)
+      return { success: false, message: error.response?.data?.error || 'Login failed. Please try again.' }
     } finally {
       setIsLoading(false)
     }
@@ -102,13 +102,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setIsLoading(true)
       const response = await authApi.register(email, password, name, company)
       
-      if (response.success) {
+      if (response.message && response.token) {
+        // Store token and user data
+        setToken(response.token)
+        setUser(response.user)
+        localStorage.setItem('authToken', response.token)
+        
         return { success: true, message: response.message }
       } else {
-        return { success: false, message: response.error }
+        return { success: false, message: response.error || 'Registration failed' }
       }
-    } catch (error) {
-      return { success: false, message: 'Registration failed. Please try again.' }
+    } catch (error: any) {
+      console.error('Registration error:', error)
+      return { success: false, message: error.response?.data?.error || 'Registration failed. Please try again.' }
     } finally {
       setIsLoading(false)
     }
