@@ -8,7 +8,7 @@ import Topbar from '@/components/layout/Topbar'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
-import ProtectedRoute from '@/components/auth/ProtectedRoute'
+import AuthGuard from '@/components/auth/AuthGuard'
 import FileUploadComponent from '@/components/upload/FileUploadComponent'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -118,7 +118,7 @@ export default function SettingsPage() {
   }
 
   return (
-    <ProtectedRoute>
+    <AuthGuard>
       <div className="min-h-screen bg-gray-50">
         <Sidebar />
         <Topbar />
@@ -488,6 +488,6 @@ export default function SettingsPage() {
         pauseOnHover
       />
     </div>
-    </ProtectedRoute>
+    </AuthGuard>
   )
 }

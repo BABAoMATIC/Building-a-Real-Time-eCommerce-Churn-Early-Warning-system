@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import { useRealTimeDashboard } from '@/hooks/useRealTimeDashboard'
 import Sidebar from '@/components/layout/Sidebar'
 import Topbar from '@/components/layout/Topbar'
-import ProtectedRoute from '@/components/auth/ProtectedRoute'
+import AuthGuard from '@/components/auth/AuthGuard'
 import RealTimeDashboardCards from '@/components/dashboard/RealTimeDashboardCards'
 import CohortsSection from '@/components/cohorts/CohortsSection'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
@@ -83,7 +83,7 @@ export default function Dashboard() {
   // Loading state
   if (loading && !dashboardData) {
     return (
-      <ProtectedRoute>
+      <AuthGuard>
         <div className="min-h-screen bg-gray-50">
           <Sidebar />
           <Topbar />
@@ -113,14 +113,14 @@ export default function Dashboard() {
             </div>
           </main>
         </div>
-      </ProtectedRoute>
+      </AuthGuard>
     )
   }
 
   // Error state
   if (error && !dashboardData) {
     return (
-      <ProtectedRoute>
+      <AuthGuard>
         <div className="min-h-screen bg-gray-50">
           <Sidebar />
           <Topbar />
@@ -165,12 +165,12 @@ export default function Dashboard() {
             </div>
           </main>
         </div>
-      </ProtectedRoute>
+      </AuthGuard>
     )
   }
 
   return (
-    <ProtectedRoute>
+    <AuthGuard>
       <div className="min-h-screen bg-gray-50" data-testid="dashboard">
         <Sidebar />
         <Topbar />
@@ -313,6 +313,6 @@ export default function Dashboard() {
           pauseOnHover
         />
       </div>
-    </ProtectedRoute>
+    </AuthGuard>
   )
 }

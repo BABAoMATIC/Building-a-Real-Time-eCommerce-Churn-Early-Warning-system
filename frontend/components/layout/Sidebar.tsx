@@ -15,7 +15,7 @@ import {
 } from 'lucide-react'
 import { useState } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
@@ -30,6 +30,11 @@ const navigation = [
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
+  const router = useRouter()
+
+  const handleLogoClick = () => {
+    router.push('/')
+  }
 
   return (
     <>
@@ -74,7 +79,8 @@ export default function Sidebar() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="flex items-center px-4 sm:px-6 py-4 sm:py-6 border-b border-gray-200/50"
+            onClick={handleLogoClick}
+            className="flex items-center px-4 sm:px-6 py-4 sm:py-6 border-b border-gray-200/50 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
           >
             <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
               <LayoutDashboard className="h-5 w-5 text-white" />

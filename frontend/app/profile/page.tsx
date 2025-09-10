@@ -11,7 +11,7 @@ import Input from '@/components/ui/Input'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import SuccessMessage from '@/components/ui/SuccessMessage'
-import ProtectedRoute from '@/components/auth/ProtectedRoute'
+import AuthGuard from '@/components/auth/AuthGuard'
 import { useAuth } from '@/contexts/AuthContext'
 import { useNotifications } from '@/hooks/useNotifications'
 import { useRouter } from 'next/navigation'
@@ -251,7 +251,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <ProtectedRoute>
+    <AuthGuard>
       <div className="min-h-screen bg-gray-50">
         <Sidebar />
         <Topbar />
@@ -766,6 +766,6 @@ export default function ProfilePage() {
         </div>
       </main>
     </div>
-    </ProtectedRoute>
+    </AuthGuard>
   )
 }
