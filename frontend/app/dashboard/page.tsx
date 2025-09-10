@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { useChurn } from '@/hooks/useChurn'
 import Sidebar from '@/components/layout/Sidebar'
@@ -14,14 +14,9 @@ import {
   Users, 
   TrendingUp, 
   BarChart3,
-  Loader2,
   Wifi,
   WifiOff,
   Sparkles,
-  Zap,
-  Target,
-  Activity,
-  Shield,
   Star,
   Rocket,
   Heart

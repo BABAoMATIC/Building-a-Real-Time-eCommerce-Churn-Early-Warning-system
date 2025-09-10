@@ -4,7 +4,7 @@ interface ChurnPredictionRequest {
   user_id: number;
   event_type: string;
   timestamp: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 interface ChurnPredictionResponse {
@@ -42,9 +42,9 @@ export async function POST(request: NextRequest) {
 
       const data: ChurnPredictionResponse = await response.json();
       return NextResponse.json(data);
-    } catch (error) {
-      // If Flask API is not available, provide mock response
-      console.log('Flask API not available, using mock response');
+                } catch {
+                  // If Flask API is not available, provide mock response
+                  console.log('Flask API not available, using mock response');
       
       // Simple rule-based churn score calculation
       let churnScore = 0.2; // Default low risk
@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
       
       return NextResponse.json(mockData);
     }
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('API route error:', error);
     return NextResponse.json(
       { error: 'Internal server error' },

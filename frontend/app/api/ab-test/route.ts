@@ -79,13 +79,13 @@ export async function GET() {
       data: currentABTestData
     });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error fetching A/B test data:', error);
     return NextResponse.json(
       { 
         success: false, 
         error: 'Failed to fetch A/B test data',
-        details: error.message 
+        details: error instanceof Error ? error.message : 'Unknown error' 
       },
       { status: 500 }
     );
@@ -128,13 +128,13 @@ export async function POST(request: Request) {
       data: currentABTestData
     });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error updating A/B test condition:', error);
     return NextResponse.json(
       { 
         success: false, 
         error: 'Failed to update A/B test condition',
-        details: error.message 
+        details: error instanceof Error ? error.message : 'Unknown error' 
       },
       { status: 500 }
     );
@@ -153,13 +153,13 @@ export async function PUT() {
       data: currentABTestData
     });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error resetting A/B test:', error);
     return NextResponse.json(
       { 
         success: false, 
         error: 'Failed to reset A/B test',
-        details: error.message 
+        details: error instanceof Error ? error.message : 'Unknown error' 
       },
       { status: 500 }
     );

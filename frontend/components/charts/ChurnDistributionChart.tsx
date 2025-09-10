@@ -11,7 +11,7 @@ import {
   Legend,
 } from 'chart.js'
 import { Bar } from 'react-chartjs-2'
-import { Loader2, BarChart3, TrendingUp, Users, AlertTriangle, Sparkles, Zap, Target } from 'lucide-react'
+import { Loader2, BarChart3, TrendingUp, Users, AlertTriangle, Sparkles, Target } from 'lucide-react'
 
 ChartJS.register(
   CategoryScale,

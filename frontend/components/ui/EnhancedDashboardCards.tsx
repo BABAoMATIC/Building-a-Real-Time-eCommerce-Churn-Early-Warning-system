@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Users, TrendingUp, AlertTriangle, TrendingDown, Activity, Loader2, Sparkles, Zap, Shield, Heart, Star, Rocket } from 'lucide-react'
+import { Users, TrendingUp, AlertTriangle, TrendingDown, Activity, Loader2, Sparkles, Zap, Shield } from 'lucide-react'
 
 interface User {
   user_id: string;

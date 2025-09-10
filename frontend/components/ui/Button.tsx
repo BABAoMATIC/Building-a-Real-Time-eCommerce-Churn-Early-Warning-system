@@ -53,7 +53,16 @@ export default function Button({
       whileTap={{ scale: disabled || loading ? 1 : 0.98 }}
       className={combinedClasses}
       disabled={disabled || loading}
-      {...props}
+      onClick={props.onClick}
+      type={props.type}
+      form={props.form}
+      formAction={props.formAction}
+      formEncType={props.formEncType}
+      formMethod={props.formMethod}
+      formNoValidate={props.formNoValidate}
+      formTarget={props.formTarget}
+      name={props.name}
+      value={props.value}
     >
       {loading && (
         <Loader2 className="w-4 h-4 animate-spin mr-2" />

@@ -19,7 +19,6 @@ export default function ToastProvider() {
       className="mt-16"
       toastClassName="!bg-white !text-gray-900 !border !border-gray-200 !shadow-lg"
       progressClassName="!bg-blue-600"
-      bodyClassName="!text-gray-900"
       closeButton={({ closeToast }) => (
         <button
           onClick={closeToast}

@@ -8,7 +8,7 @@ import { OfferRuleCard } from '@/components/ui/OfferRuleCard';
 import { RefreshCw, AlertTriangle, BarChart3, Users, Clock } from 'lucide-react';
 
 export default function ABTestPage() {
-  const { abTestData, isLoading, error, updateABTestCondition, resetABTest } = useABTest();
+  const { abTestData, error, updateABTestCondition, resetABTest } = useABTest();
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   const handleToggle = async (newCondition: 'control' | 'treatment') => {

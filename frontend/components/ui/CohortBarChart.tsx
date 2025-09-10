@@ -74,7 +74,7 @@ export const CohortBarChart: React.FC<CohortBarChartProps> = ({
 
       {/* Bar Chart */}
       <div className="space-y-4">
-        {data.map((cohort, index) => {
+        {data.map((cohort) => {
           const barHeight = (cohort.count / maxCount) * 100;
           
           return (

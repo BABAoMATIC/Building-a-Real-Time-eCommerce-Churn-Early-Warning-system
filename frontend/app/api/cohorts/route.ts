@@ -36,13 +36,13 @@ export async function GET() {
       data: cohortData
     });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error fetching cohort data:', error);
     return NextResponse.json(
       { 
         success: false, 
         error: 'Failed to fetch cohort data',
-        details: error.message 
+        details: error instanceof Error ? error.message : 'Unknown error' 
       },
       { status: 500 }
     );
@@ -62,13 +62,13 @@ export async function POST() {
       data: cohortData
     });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error refreshing cohort data:', error);
     return NextResponse.json(
       { 
         success: false, 
         error: 'Failed to refresh cohort data',
-        details: error.message 
+        details: error instanceof Error ? error.message : 'Unknown error' 
       },
       { status: 500 }
     );

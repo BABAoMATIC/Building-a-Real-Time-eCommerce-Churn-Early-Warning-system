@@ -88,7 +88,7 @@ export default function OffersPage() {
     }
   }
 
-  const handleEditRule = (_rule: OfferRule) => {
+  const handleEditRule = () => {
     // In a real app, you'd open an edit modal or navigate to edit page
     toast.info('Edit functionality coming soon!')
   }
