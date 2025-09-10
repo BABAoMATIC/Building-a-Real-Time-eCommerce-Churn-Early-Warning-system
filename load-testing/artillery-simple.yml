@@ -1,0 +1,82 @@
+config:
+  target: 'http://localhost:5000'
+  phases:
+    # Warm-up phase
+    - duration: 10
+      arrivalRate: 5
+      name: "Warm-up"
+    # Ramp-up to 100 concurrent users
+    - duration: 30
+      arrivalRate: 10
+      rampTo: 100
+      name: "Ramp-up to 100 users"
+    # Sustained load with 100 concurrent users
+    - duration: 60
+      arrivalRate: 100
+      name: "100 concurrent users"
+    # Cool-down
+    - duration: 10
+      arrivalRate: 10
+      name: "Cool-down"
+  
+  http:
+    timeout: 30
+
+scenarios:
+  - name: "Churn Prediction Load Test"
+    weight: 100
+    flow:
+      # Generate random test data
+      - function: "generateTestData"
+      
+      # Make prediction request
+      - post:
+          url: "/predict-churn"
+          headers:
+            Content-Type: "application/json"
+          json:
+            user_id: "{{ userId }}"
+            event_type: "{{ eventType }}"
+            timestamp: "{{ timestamp }}"
+            metadata: "{{ metadata }}"
+          expect:
+            - statusCode: 200
+            - hasProperty: "churn_score"
+
+# Custom function to generate test data
+functions: |
+  function generateTestData(context, events, done) {
+    const eventTypes = [
+      "add_to_cart", "product_view", "bounce", "checkout",
+      "login", "purchase", "search", "page_view"
+    ];
+    
+    // Generate random user ID
+    context.vars.userId = `user_${Math.floor(Math.random() * 1000)}`;
+    
+    // Random event type
+    context.vars.eventType = eventTypes[Math.floor(Math.random() * eventTypes.length)];
+    
+    // Current timestamp
+    context.vars.timestamp = new Date().toISOString();
+    
+    // Generate metadata based on event type
+    let metadata = {
+      page: "/test-page",
+      session_length: Math.random() * 30 + 1
+    };
+    
+    if (context.vars.eventType === "add_to_cart") {
+      metadata.product_id = `PROD-${Math.floor(Math.random() * 100)}`;
+      metadata.quantity = Math.floor(Math.random() * 5) + 1;
+    } else if (context.vars.eventType === "product_view") {
+      metadata.product_id = `PROD-${Math.floor(Math.random() * 100)}`;
+      metadata.view_duration = Math.random() * 120 + 5;
+    } else if (context.vars.eventType === "bounce") {
+      metadata.session_length = Math.random() * 5;
+    }
+    
+    context.vars.metadata = metadata;
+    
+    return done();
+  }

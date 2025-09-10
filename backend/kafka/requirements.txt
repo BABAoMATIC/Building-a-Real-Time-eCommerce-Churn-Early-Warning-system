@@ -1,0 +1,6 @@
+# Kafka Producer Dependencies
+kafka-python==2.0.2
+python-dotenv==1.0.0
+
+# Optional: For enhanced logging and monitoring
+colorlog==6.8.0

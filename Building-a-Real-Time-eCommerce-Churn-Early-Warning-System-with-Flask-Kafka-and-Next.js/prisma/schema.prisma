@@ -1,0 +1,288 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Customer {
+  id                String   @id @default(cuid())
+  email             String   @unique
+  firstName         String
+  lastName          String
+  phone             String?
+  dateOfBirth       DateTime?
+  address           Json?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Customer behavior metrics
+  totalOrders       Int      @default(0)
+  totalSpent        Float    @default(0)
+  avgOrderValue     Float    @default(0)
+  daysSinceLastOrder Int     @default(0)
+  supportTickets    Int      @default(0)
+  productReturns    Int      @default(0)
+  emailEngagement   Float    @default(0)
+  loginFrequency    Int      @default(0)
+  paymentFailures   Int      @default(0)
+  discountUsage     Float    @default(0)
+  loyaltyPoints     Int      @default(0)
+  accountAgeDays    Int      @default(0)
+  lastActivity      DateTime @default(now())
+
+  // Churn prediction data
+  churnProbability  Float?
+  riskLevel         RiskLevel?
+  lastPredictionAt  DateTime?
+  isActive          Boolean  @default(true)
+
+  // Relations
+  orders            Order[]
+  events            CustomerEvent[]
+  predictions       ChurnPrediction[]
+  alerts            Alert[]
+  tickets           SupportTicket[]
+
+  @@map("customers")
+}
+
+model Order {
+  id                String      @id @default(cuid())
+  customerId        String
+  orderNumber       String      @unique
+  status            OrderStatus @default(PENDING)
+  totalAmount       Float
+  currency          String      @default("USD")
+  paymentMethod     String?
+  shippingAddress   Json?
+  billingAddress    Json?
+  items             Json        // Array of order items
+  notes             String?
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  shippedAt         DateTime?
+  deliveredAt       DateTime?
+
+  // Relations
+  customer          Customer    @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  events            CustomerEvent[]
+
+  @@map("orders")
+}
+
+model CustomerEvent {
+  id                String      @id @default(cuid())
+  customerId        String
+  orderId           String?
+  eventType         EventType
+  eventData         Json        // Flexible event data
+  sessionId         String?
+  userAgent         String?
+  ipAddress         String?
+  timestamp         DateTime    @default(now())
+
+  // Relations
+  customer          Customer    @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  order             Order?      @relation(fields: [orderId], references: [id], onDelete: SetNull)
+
+  @@map("customer_events")
+}
+
+model ChurnPrediction {
+  id                String      @id @default(cuid())
+  customerId        String
+  churnProbability  Float
+  riskLevel         RiskLevel
+  features          Json        // Model input features
+  recommendations   Json        // Array of recommendations
+  modelVersion      String?
+  confidence        Float?
+  createdAt         DateTime    @default(now())
+
+  // Relations
+  customer          Customer    @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  @@map("churn_predictions")
+}
+
+model Alert {
+  id                String      @id @default(cuid())
+  customerId        String
+  alertType         AlertType
+  priority          Priority    @default(MEDIUM)
+  title             String
+  message           String
+  eventData         Json?
+  status            AlertStatus @default(NEW)
+  acknowledgedAt    DateTime?
+  resolvedAt        DateTime?
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+
+  // Relations
+  customer          Customer    @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  @@map("alerts")
+}
+
+model SupportTicket {
+  id                String      @id @default(cuid())
+  customerId        String
+  ticketNumber      String      @unique
+  subject           String
+  description       String
+  category          TicketCategory
+  priority          Priority    @default(MEDIUM)
+  status            TicketStatus @default(OPEN)
+  assignedTo        String?
+  resolution        String?
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  resolvedAt        DateTime?
+
+  // Relations
+  customer          Customer    @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  @@map("support_tickets")
+}
+
+model ModelVersion {
+  id                String      @id @default(cuid())
+  version           String      @unique
+  modelPath         String
+  accuracy          Float?
+  precision         Float?
+  recall            Float?
+  f1Score           Float?
+  features          Json        // List of features used
+  trainingDataSize  Int?
+  trainedAt         DateTime    @default(now())
+  isActive          Boolean     @default(false)
+
+  @@map("model_versions")
+}
+
+model SystemMetrics {
+  id                String      @id @default(cuid())
+  metricName        String
+  metricValue       Float
+  metricUnit        String?
+  tags              Json?       // Additional metadata
+  timestamp         DateTime    @default(now())
+
+  @@map("system_metrics")
+}
+
+// Simplified models for churn prediction system
+model User {
+  id         Int      @id @default(autoincrement())
+  email      String   @unique
+  createdAt  DateTime @default(now())
+  churnRisk  Float?
+  cohort     String?
+  events     Event[]
+
+  @@map("users")
+}
+
+model Event {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  type      String
+  metadata  Json?
+  timestamp DateTime
+  User      User     @relation(fields: [userId], references: [id])
+
+  @@map("events")
+}
+
+model OfferRule {
+  id        Int      @id @default(autoincrement())
+  condition String
+  action    String
+
+  @@map("offer_rules")
+}
+
+// Enums
+enum RiskLevel {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+enum EventType {
+  ORDER_PLACED
+  ORDER_CANCELLED
+  PAYMENT_FAILED
+  SUPPORT_TICKET_CREATED
+  EMAIL_OPENED
+  EMAIL_CLICKED
+  LOGIN
+  PRODUCT_VIEWED
+  CART_ABANDONED
+  REVIEW_SUBMITTED
+  REFUND_REQUESTED
+  SUBSCRIPTION_CANCELLED
+  PROFILE_UPDATED
+  PASSWORD_CHANGED
+  ADDRESS_CHANGED
+}
+
+enum AlertType {
+  CHURN_RISK
+  PAYMENT_FAILURE
+  SUPPORT_ESCALATION
+  UNUSUAL_ACTIVITY
+  SYSTEM_ERROR
+  MAINTENANCE
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum AlertStatus {
+  NEW
+  ACKNOWLEDGED
+  IN_PROGRESS
+  RESOLVED
+  DISMISSED
+}
+
+enum TicketCategory {
+  BILLING
+  SHIPPING
+  PRODUCT
+  TECHNICAL
+  ACCOUNT
+  GENERAL
+}
+
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  WAITING_CUSTOMER
+  RESOLVED
+  CLOSED
+}

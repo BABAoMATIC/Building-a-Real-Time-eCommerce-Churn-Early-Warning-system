@@ -1,0 +1,9 @@
+kafka-python
+pandas
+numpy
+python-dotenv
+requests
+pymysql
+sqlalchemy
+redis
+schedule

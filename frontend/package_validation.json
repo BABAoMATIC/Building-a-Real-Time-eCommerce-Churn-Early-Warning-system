@@ -1,0 +1,22 @@
+{
+  "name": "frontend-validation",
+  "version": "1.0.0",
+  "description": "Frontend validation dependencies for eCommerce Churn Early-Warning System",
+  "dependencies": {
+    "puppeteer": "^21.5.0",
+    "axios": "^1.6.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "@testing-library/react": "^14.1.2",
+    "@testing-library/jest-dom": "^6.1.4",
+    "@testing-library/user-event": "^14.5.1"
+  },
+  "scripts": {
+    "validate": "node validate_frontend.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+  }
+}
