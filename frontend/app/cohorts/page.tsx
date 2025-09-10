@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { motion } from 'framer-motion';
 import { useCohorts } from '@/hooks/useCohorts';
 import { CohortBarChart } from '@/components/ui/CohortBarChart';
 
@@ -12,13 +13,18 @@ export default function CohortsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
         {/* Page Header */}
-        <div className="mb-8">
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="mb-8"
+        >
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">User Cohorts</h1>
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">User Cohorts</h1>
               <p className="mt-2 text-gray-600">
                 Analyze user distribution by churn risk levels
               </p>
@@ -50,7 +56,7 @@ export default function CohortsPage() {
               </button>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Error State */}
         {error && (
@@ -82,10 +88,15 @@ export default function CohortsPage() {
         )}
 
         {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.6 }}
+          className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8"
+        >
           {/* Bar Chart */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
               <CohortBarChart
                 data={cohortsData?.cohorts || []}
                 totalUsers={cohortsData?.total_users || 0}
@@ -97,7 +108,7 @@ export default function CohortsPage() {
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Summary Card */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
               <h3 className="text-lg font-medium text-gray-900 mb-4">Summary</h3>
               
               {cohortsData ? (
@@ -130,7 +141,7 @@ export default function CohortsPage() {
             </div>
 
             {/* Risk Level Definitions */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
               <h3 className="text-lg font-medium text-gray-900 mb-4">Risk Levels</h3>
               
               <div className="space-y-3">
@@ -161,7 +172,7 @@ export default function CohortsPage() {
             </div>
 
             {/* Actions */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
               <h3 className="text-lg font-medium text-gray-900 mb-4">Actions</h3>
               
               <div className="space-y-3">
@@ -182,7 +193,7 @@ export default function CohortsPage() {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

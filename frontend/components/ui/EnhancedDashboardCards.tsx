@@ -80,7 +80,7 @@ export default function EnhancedDashboardCards({ users, isLoading = false }: Enh
   ]
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6 lg:gap-8">
       {cards.map((card, index) => (
         <motion.div
           key={card.title}
@@ -99,7 +99,7 @@ export default function EnhancedDashboardCards({ users, isLoading = false }: Enh
             rotateY: 5,
             boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
           }}
-          className={`relative overflow-hidden bg-gradient-to-br ${card.bgGradient} rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 group border border-white/20 backdrop-blur-sm`}
+          className={`relative overflow-hidden bg-gradient-to-br ${card.bgGradient} rounded-2xl sm:rounded-3xl shadow-soft hover:shadow-hard transition-all duration-500 group border border-white/20 backdrop-blur-sm p-4 sm:p-6`}
         >
           {/* Animated background elements */}
           <div className="absolute inset-0 overflow-hidden">
@@ -148,9 +148,9 @@ export default function EnhancedDashboardCards({ users, isLoading = false }: Enh
           </div>
 
           {/* Main content */}
-          <div className="relative z-10 p-8">
+          <div className="relative z-10 p-4 sm:p-6 lg:p-8">
             {/* Header with emoji and title */}
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between mb-4 sm:mb-6">
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -218,7 +218,7 @@ export default function EnhancedDashboardCards({ users, isLoading = false }: Enh
                 stiffness: 200,
                 damping: 15
               }}
-              className="mb-6"
+              className="mb-4 sm:mb-6"
             >
               {isLoading ? (
                 <div className="flex items-center space-x-3">
@@ -247,7 +247,7 @@ export default function EnhancedDashboardCards({ users, isLoading = false }: Enh
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 + index * 0.1 }}
-              className="flex items-center justify-between mb-6"
+              className="flex items-center justify-between mb-4 sm:mb-6"
             >
               <div className="flex items-center space-x-2">
                 {card.trend === 'up' ? (

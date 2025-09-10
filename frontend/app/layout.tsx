@@ -34,9 +34,11 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        {children}
+    <html lang="en" className="h-full scroll-smooth">
+      <body className={`${inter.className} h-full overflow-x-hidden antialiased bg-gray-50`}>
+        <div className="min-h-full flex flex-col">
+          {children}
+        </div>
       </body>
     </html>
   )

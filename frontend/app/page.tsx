@@ -1,17 +1,20 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { ArrowRight, Shield, TrendingUp, Users, Brain, Zap, BarChart3 } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ArrowRight, Shield, TrendingUp, Users, Brain, Zap, BarChart3, Menu, X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 
 export default function Home() {
   const router = useRouter()
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  
   return (
     <div className="min-h-screen">
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-12 sm:h-14 md:h-16">
             <div className="flex items-center space-x-2">
               <button 
                 onClick={() => router.push('/')}
@@ -20,10 +23,10 @@ export default function Home() {
                 <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
                   <span className="text-white font-bold text-sm">C</span>
                 </div>
-                <span className="text-xl font-bold text-gray-900">ChurnGuard</span>
+                <span className="text-base sm:text-lg md:text-xl font-bold text-gray-900">ChurnGuard</span>
               </button>
             </div>
-            <div className="hidden md:flex items-center space-x-8">
+            <div className="hidden lg:flex items-center space-x-6 xl:space-x-8">
               <button 
                 onClick={() => router.push('/dashboard')}
                 className="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200"
@@ -43,7 +46,7 @@ export default function Home() {
                 Offers
               </button>
             </div>
-            <div className="hidden md:flex items-center space-x-4">
+            <div className="hidden md:flex items-center space-x-3 sm:space-x-4">
               <button 
                 onClick={() => router.push('/login')}
                 className="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200"
@@ -52,18 +55,149 @@ export default function Home() {
               </button>
               <button 
                 onClick={() => router.push('/signup')}
-                className="px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-medium hover:shadow-lg transition-all duration-200 flex items-center"
+                className="px-3 sm:px-4 md:px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-medium hover:shadow-lg transition-all duration-200 flex items-center text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500/20"
               >
                 Get Started
                 <ArrowRight className="ml-2 w-4 h-4" />
               </button>
             </div>
+            
+            {/* Mobile menu button */}
+            <div className="md:hidden">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="p-2 rounded-lg bg-white/90 backdrop-blur-sm shadow-soft border border-gray-200/60 hover:bg-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+              >
+                {isMobileMenuOpen ? (
+                  <X className="h-6 w-6 text-gray-700" />
+                ) : (
+                  <Menu className="h-6 w-6 text-gray-700" />
+                )}
+              </motion.button>
+            </div>
           </div>
         </div>
       </nav>
 
+      {/* Mobile Navigation Menu */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden"
+            />
+            
+            {/* Mobile Menu */}
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white/95 backdrop-blur-lg shadow-hard border-l border-gray-200/50 z-50 md:hidden"
+            >
+              <div className="flex flex-col h-full">
+                {/* Header */}
+                <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-200/50">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+                      <span className="text-white font-bold text-sm">C</span>
+                    </div>
+                    <span className="text-lg font-bold text-gray-900">ChurnGuard</span>
+                  </div>
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="p-2 rounded-lg hover:bg-gray-100 transition-all duration-200"
+                  >
+                    <X className="h-6 w-6 text-gray-700" />
+                  </motion.button>
+                </div>
+
+                {/* Navigation Links */}
+                <nav className="flex-1 p-4 sm:p-6 space-y-2">
+                  <motion.button
+                    whileHover={{ scale: 1.02, x: 4 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => {
+                      router.push('/dashboard')
+                      setIsMobileMenuOpen(false)
+                    }}
+                    className="w-full flex items-center space-x-3 p-3 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200 text-left"
+                  >
+                    <BarChart3 className="h-5 w-5 text-blue-600" />
+                    <span className="font-medium">Dashboard</span>
+                  </motion.button>
+
+                  <motion.button
+                    whileHover={{ scale: 1.02, x: 4 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => {
+                      router.push('/cohorts')
+                      setIsMobileMenuOpen(false)
+                    }}
+                    className="w-full flex items-center space-x-3 p-3 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200 text-left"
+                  >
+                    <Users className="h-5 w-5 text-green-600" />
+                    <span className="font-medium">Cohorts</span>
+                  </motion.button>
+
+                  <motion.button
+                    whileHover={{ scale: 1.02, x: 4 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => {
+                      router.push('/offers')
+                      setIsMobileMenuOpen(false)
+                    }}
+                    className="w-full flex items-center space-x-3 p-3 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200 text-left"
+                  >
+                    <Shield className="h-5 w-5 text-purple-600" />
+                    <span className="font-medium">Offers</span>
+                  </motion.button>
+                </nav>
+
+                {/* Auth Buttons */}
+                <div className="p-4 sm:p-6 border-t border-gray-200/50 space-y-3">
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => {
+                      router.push('/login')
+                      setIsMobileMenuOpen(false)
+                    }}
+                    className="w-full p-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-all duration-200 font-medium border border-gray-200"
+                  >
+                    Sign In
+                  </motion.button>
+                  
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => {
+                      router.push('/signup')
+                      setIsMobileMenuOpen(false)
+                    }}
+                    className="w-full p-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-medium hover:shadow-lg transition-all duration-200 flex items-center justify-center"
+                  >
+                    Get Started
+                    <ArrowRight className="ml-2 w-4 h-4" />
+                  </motion.button>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50 pt-12 sm:pt-16 md:pt-20">
         {/* Background Elements */}
         <div className="absolute inset-0 overflow-hidden">
           <motion.div
@@ -92,7 +226,7 @@ export default function Home() {
           />
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="relative z-10 max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 text-center py-12 sm:py-16 md:py-20">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -113,7 +247,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
-              className="text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-900 mb-4 sm:mb-6"
             >
               Predict & Prevent
               <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent block">
@@ -125,7 +259,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-xl md:text-2xl text-gray-600 mb-8 max-w-4xl mx-auto leading-relaxed"
+              className="text-lg sm:text-xl md:text-2xl text-gray-600 mb-6 sm:mb-8 max-w-4xl mx-auto leading-relaxed px-4 sm:px-0"
             >
               Advanced machine learning system that identifies customers at risk of churning 
               and provides actionable insights to retain them before it&apos;s too late.

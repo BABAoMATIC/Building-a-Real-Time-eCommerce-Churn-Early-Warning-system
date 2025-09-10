@@ -197,20 +197,20 @@ export default function Dashboard() {
       <Sidebar />
       <Topbar />
       
-      <main className="lg:ml-64 pt-20 relative z-10">
-        <div className="p-6">
+      <main className="relative z-10 min-h-screen pt-20 sm:pt-24">
+        <div className="p-3 sm:p-4 md:p-6 lg:p-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            className="max-w-7xl mx-auto"
+            className="max-w-7xl mx-auto space-y-6 sm:space-y-8"
           >
             {/* Header */}
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.5 }}
-              className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8"
+              className="flex flex-col sm:flex-row items-start sm:items-center justify-between"
             >
               <div className="mb-4 sm:mb-0">
                 <motion.div
@@ -231,7 +231,7 @@ export default function Dashboard() {
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.3 }}
-                      className="text-4xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent mb-2"
+                      className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent mb-2"
                     >
                       ChurnGuard Pro
                     </motion.h1>
@@ -239,7 +239,7 @@ export default function Dashboard() {
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.4 }}
-                      className="text-gray-700 text-lg font-medium"
+                      className="text-gray-700 text-sm sm:text-base md:text-lg font-medium"
                     >
                       🚀 Advanced Customer Retention Intelligence
                     </motion.p>
@@ -319,7 +319,7 @@ export default function Dashboard() {
             </motion.div>
 
             {/* Charts Section */}
-            <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-8">
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
               {/* Churn Distribution Chart */}
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
@@ -354,7 +354,7 @@ export default function Dashboard() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7, duration: 0.6 }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"
             >
               {/* Quick Stats */}
               {[
@@ -503,7 +503,7 @@ export default function Dashboard() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1, duration: 0.8 }}
-              className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
             >
               {/* Achievement Card */}
               <motion.div

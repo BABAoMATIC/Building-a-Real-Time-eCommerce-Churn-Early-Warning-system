@@ -160,27 +160,27 @@ export default function OffersPage() {
         theme="light"
       />
       
-      <main className="lg:ml-64 pt-20">
-        <div className="px-6 py-8">
+      <main className="pt-20 sm:pt-24 min-h-screen">
+        <div className="p-3 sm:p-4 md:p-6 lg:p-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="max-w-7xl mx-auto space-y-8"
+            className="max-w-7xl mx-auto space-y-6 sm:space-y-8"
           >
             {/* Header Section */}
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8"
+              className="bg-white rounded-2xl shadow-sm border border-gray-200 p-4 sm:p-6 lg:p-8"
             >
               <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
                 <div className="space-y-2">
-                  <h1 className="text-4xl font-bold text-gray-900">
+                  <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">
                     Offer Rules Management
                   </h1>
-                  <p className="text-lg text-gray-600 max-w-2xl">
+                  <p className="text-base sm:text-lg text-gray-600 max-w-2xl">
                     Create and manage automated offer rules based on customer behavior patterns and churn risk levels
                   </p>
                 </div>
@@ -212,11 +212,11 @@ export default function OffersPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="grid grid-cols-1 md:grid-cols-3 gap-6"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
             >
               <motion.div
                 whileHover={{ scale: 1.02, y: -2 }}
-                className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 hover:shadow-md transition-all duration-200"
+                className="bg-white rounded-2xl shadow-sm border border-gray-200 p-4 sm:p-6 lg:p-8 hover:shadow-md transition-all duration-200"
               >
                 <div className="flex items-center space-x-4">
                   <div className="p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-2xl">
@@ -231,7 +231,7 @@ export default function OffersPage() {
 
               <motion.div
                 whileHover={{ scale: 1.02, y: -2 }}
-                className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 hover:shadow-md transition-all duration-200"
+                className="bg-white rounded-2xl shadow-sm border border-gray-200 p-4 sm:p-6 lg:p-8 hover:shadow-md transition-all duration-200"
               >
                 <div className="flex items-center space-x-4">
                   <div className="p-4 bg-gradient-to-r from-green-50 to-green-100 rounded-2xl">
@@ -246,7 +246,7 @@ export default function OffersPage() {
 
               <motion.div
                 whileHover={{ scale: 1.02, y: -2 }}
-                className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 hover:shadow-md transition-all duration-200"
+                className="bg-white rounded-2xl shadow-sm border border-gray-200 p-4 sm:p-6 lg:p-8 hover:shadow-md transition-all duration-200"
               >
                 <div className="flex items-center space-x-4">
                   <div className="p-4 bg-gradient-to-r from-orange-50 to-orange-100 rounded-2xl">

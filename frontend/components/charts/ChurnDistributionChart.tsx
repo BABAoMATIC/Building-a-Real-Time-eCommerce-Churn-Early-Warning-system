@@ -204,7 +204,7 @@ export default function ChurnDistributionChart({ users, isLoading = false }: Chu
       initial={{ opacity: 0, y: 30, rotateX: -10 }}
       animate={{ opacity: 1, y: 0, rotateX: 0 }}
       transition={{ duration: 0.8, delay: 0.3 }}
-      className="relative overflow-hidden bg-gradient-to-br from-white via-blue-50 to-purple-50 rounded-3xl shadow-xl border border-white/20 backdrop-blur-sm"
+      className="relative overflow-hidden bg-gradient-to-br from-white via-blue-50 to-purple-50 rounded-2xl sm:rounded-3xl shadow-soft border border-white/20 backdrop-blur-sm p-4 sm:p-6"
     >
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
@@ -236,9 +236,9 @@ export default function ChurnDistributionChart({ users, isLoading = false }: Chu
         />
       </div>
 
-      <div className="relative z-10 p-8">
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center space-x-4">
+      <div className="relative z-10 p-4 sm:p-6 lg:p-8">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 md:mb-8 space-y-3 sm:space-y-0">
+          <div className="flex items-center space-x-3 sm:space-x-4">
             <motion.div
               initial={{ scale: 0, rotate: -180 }}
               animate={{ scale: 1, rotate: 0 }}
@@ -252,7 +252,7 @@ export default function ChurnDistributionChart({ users, isLoading = false }: Chu
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.5 }}
-                className="text-2xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-2"
+                className="text-lg sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-2"
               >
                 📊 Churn Distribution by Cohort
               </motion.h3>
@@ -260,18 +260,18 @@ export default function ChurnDistributionChart({ users, isLoading = false }: Chu
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.6 }}
-                className="text-gray-600 font-medium"
+                className="text-sm sm:text-base text-gray-600 font-medium"
               >
                 🎯 Average churn scores across different user cohorts
               </motion.p>
             </div>
           </div>
           
-          <motion.div 
+            <motion.div 
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.7 }}
-            className="flex items-center space-x-3 bg-white/70 backdrop-blur-sm rounded-full px-4 py-2 shadow-sm"
+            className="flex items-center space-x-2 sm:space-x-3 bg-white/70 backdrop-blur-sm rounded-full px-3 sm:px-4 py-2 shadow-sm"
           >
             <motion.div
               animate={{ scale: [1, 1.2, 1] }}
@@ -316,7 +316,7 @@ export default function ChurnDistributionChart({ users, isLoading = false }: Chu
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.8, duration: 0.5 }}
-            className="h-80"
+            className="h-64 sm:h-72 lg:h-80"
           >
             <Bar data={chartConfig} options={options} />
           </motion.div>
@@ -326,7 +326,7 @@ export default function ChurnDistributionChart({ users, isLoading = false }: Chu
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1, duration: 0.6 }}
-            className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-6 pt-8 border-t border-white/30"
+            className="mt-6 sm:mt-8 grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 pt-6 sm:pt-8 border-t border-white/30"
           >
             {[
               {
@@ -374,7 +374,7 @@ export default function ChurnDistributionChart({ users, isLoading = false }: Chu
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 transition={{ delay: stat.delay, duration: 0.5 }}
                 whileHover={{ scale: 1.05, y: -5 }}
-                className={`relative overflow-hidden bg-gradient-to-br ${stat.bgGradient} rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 group`}
+                className={`relative overflow-hidden bg-gradient-to-br ${stat.bgGradient} rounded-2xl p-3 sm:p-4 shadow-lg hover:shadow-xl transition-all duration-300 group`}
               >
                 {/* Animated background */}
                 <motion.div

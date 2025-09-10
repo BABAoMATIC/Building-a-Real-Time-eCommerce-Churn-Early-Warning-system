@@ -2,16 +2,16 @@ import { NextResponse } from 'next/server'
 
 // Dummy data for the dashboard
 const dummyUsers = [
-  { id: 1, name: 'John Smith', email: 'john@example.com', churnRisk: 85, cohort: 'Jan 2024' },
-  { id: 2, name: 'Jane Doe', email: 'jane@example.com', churnRisk: 45, cohort: 'Feb 2024' },
-  { id: 3, name: 'Mike Johnson', email: 'mike@example.com', churnRisk: 72, cohort: 'Jan 2024' },
-  { id: 4, name: 'Sarah Wilson', email: 'sarah@example.com', churnRisk: 23, cohort: 'Mar 2024' },
-  { id: 5, name: 'David Brown', email: 'david@example.com', churnRisk: 91, cohort: 'Feb 2024' },
-  { id: 6, name: 'Lisa Davis', email: 'lisa@example.com', churnRisk: 34, cohort: 'Mar 2024' },
-  { id: 7, name: 'Tom Miller', email: 'tom@example.com', churnRisk: 67, cohort: 'Jan 2024' },
-  { id: 8, name: 'Emma Garcia', email: 'emma@example.com', churnRisk: 56, cohort: 'Feb 2024' },
-  { id: 9, name: 'Chris Martinez', email: 'chris@example.com', churnRisk: 78, cohort: 'Mar 2024' },
-  { id: 10, name: 'Anna Rodriguez', email: 'anna@example.com', churnRisk: 29, cohort: 'Jan 2024' },
+  { user_id: '1', name: 'John Smith', email: 'john@example.com', churn_score: 0.85, cohort: 'Jan 2024', risk_level: 'High' },
+  { user_id: '2', name: 'Jane Doe', email: 'jane@example.com', churn_score: 0.45, cohort: 'Feb 2024', risk_level: 'Medium' },
+  { user_id: '3', name: 'Mike Johnson', email: 'mike@example.com', churn_score: 0.72, cohort: 'Jan 2024', risk_level: 'High' },
+  { user_id: '4', name: 'Sarah Wilson', email: 'sarah@example.com', churn_score: 0.23, cohort: 'Mar 2024', risk_level: 'Low' },
+  { user_id: '5', name: 'David Brown', email: 'david@example.com', churn_score: 0.91, cohort: 'Feb 2024', risk_level: 'High' },
+  { user_id: '6', name: 'Lisa Davis', email: 'lisa@example.com', churn_score: 0.34, cohort: 'Mar 2024', risk_level: 'Low' },
+  { user_id: '7', name: 'Tom Miller', email: 'tom@example.com', churn_score: 0.67, cohort: 'Jan 2024', risk_level: 'Medium' },
+  { user_id: '8', name: 'Emma Garcia', email: 'emma@example.com', churn_score: 0.56, cohort: 'Feb 2024', risk_level: 'Medium' },
+  { user_id: '9', name: 'Chris Martinez', email: 'chris@example.com', churn_score: 0.78, cohort: 'Mar 2024', risk_level: 'High' },
+  { user_id: '10', name: 'Anna Rodriguez', email: 'anna@example.com', churn_score: 0.29, cohort: 'Jan 2024', risk_level: 'Low' },
 ]
 
 const cohortData = [
@@ -30,9 +30,9 @@ export async function GET() {
     // Calculate dashboard stats
     const totalUsers = dummyUsers.length
     const averageChurnRisk = Math.round(
-      dummyUsers.reduce((sum, user) => sum + user.churnRisk, 0) / totalUsers
+      dummyUsers.reduce((sum, user) => sum + user.churn_score, 0) / totalUsers * 100
     )
-    const highRiskUsers = dummyUsers.filter(user => user.churnRisk >= 70).length
+    const highRiskUsers = dummyUsers.filter(user => user.churn_score >= 0.7).length
     const churnRateChange = -5.2 // Simulated change from last month
 
     const dashboardStats = {
