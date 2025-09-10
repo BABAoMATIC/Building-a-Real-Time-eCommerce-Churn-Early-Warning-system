@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import { AuthProvider } from '@/contexts/AuthContext'
+import NotificationProvider from '@/components/ui/NotificationProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -36,9 +38,13 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full scroll-smooth">
       <body className={`${inter.className} h-full overflow-x-hidden antialiased bg-gray-50`}>
-        <div className="min-h-full flex flex-col">
-          {children}
-        </div>
+        <AuthProvider>
+          <NotificationProvider>
+            <div className="min-h-full flex flex-col">
+              {children}
+            </div>
+          </NotificationProvider>
+        </AuthProvider>
       </body>
     </html>
   )

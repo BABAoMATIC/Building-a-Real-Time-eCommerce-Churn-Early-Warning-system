@@ -10,7 +10,8 @@ import {
   LogOut,
   Menu,
   X,
-  Target
+  Target,
+  User
 } from 'lucide-react'
 import { useState } from 'react'
 import Link from 'next/link'
@@ -22,6 +23,7 @@ const navigation = [
   { name: 'Offers', href: '/offers', icon: Target },
   { name: 'Alerts', href: '/alerts', icon: AlertTriangle },
   { name: 'Analytics', href: '/analytics', icon: BarChart3 },
+  { name: 'Profile', href: '/profile', icon: User },
   { name: 'Settings', href: '/settings', icon: Settings },
 ]
 
@@ -37,7 +39,7 @@ export default function Sidebar() {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => setIsOpen(!isOpen)}
-          data-sidebar-toggle
+          data-testid="mobile-menu-button"
           className="p-2 sm:p-2.5 rounded-lg bg-white/95 backdrop-blur-sm shadow-soft border border-gray-200/60 hover:bg-white hover:shadow-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
         >
           {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -64,6 +66,7 @@ export default function Sidebar() {
           fixed inset-y-0 left-0 z-50 w-64 sm:w-72 bg-white/95 backdrop-blur-lg shadow-hard border-r border-gray-200/50
           ${isOpen ? 'translate-x-0' : '-translate-x-full'}
         `}
+        data-testid="sidebar"
       >
         <div className="flex flex-col h-full">
           {/* Logo */}

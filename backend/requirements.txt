@@ -1,5 +1,6 @@
 flask
 flask-cors
+flask-socketio
 python-dotenv
 scikit-learn
 pandas
@@ -11,3 +12,6 @@ sqlalchemy
 pymysql
 redis
 gunicorn
+PyJWT
+bcrypt
+flask-jwt-extended

@@ -1,0 +1,66 @@
+{
+  "name": "churn-guard-backend",
+  "description": "ChurnGuard Backend API - Customer Churn Early-Warning System",
+  "repository": "https://github.com/your-username/churn-guard-backend",
+  "logo": "https://via.placeholder.com/150x150/3B82F6/FFFFFF?text=CG",
+  "keywords": ["python", "flask", "machine-learning", "churn-prediction", "api"],
+  "success_url": "/api/health",
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ],
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "basic"
+    },
+    "worker": {
+      "quantity": 1,
+      "size": "basic"
+    }
+  },
+  "addons": [
+    {
+      "plan": "heroku-postgresql:mini",
+      "as": "DATABASE"
+    },
+    {
+      "plan": "heroku-redis:mini",
+      "as": "REDIS"
+    }
+  ],
+  "env": {
+    "FLASK_ENV": {
+      "description": "Flask environment",
+      "value": "production"
+    },
+    "FLASK_APP": {
+      "description": "Flask application entry point",
+      "value": "app.py"
+    },
+    "JWT_SECRET_KEY": {
+      "description": "JWT secret key for token generation",
+      "generator": "secret"
+    },
+    "DATABASE_URL": {
+      "description": "Database connection URL",
+      "required": true
+    },
+    "REDIS_URL": {
+      "description": "Redis connection URL",
+      "required": true
+    },
+    "KAFKA_BOOTSTRAP_SERVERS": {
+      "description": "Kafka bootstrap servers",
+      "value": "localhost:9092"
+    },
+    "CORS_ORIGINS": {
+      "description": "Allowed CORS origins",
+      "value": "https://your-frontend-domain.vercel.app"
+    }
+  },
+  "scripts": {
+    "postdeploy": "python init_database.py"
+  }
+}

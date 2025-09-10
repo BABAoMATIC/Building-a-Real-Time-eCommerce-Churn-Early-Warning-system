@@ -2,12 +2,16 @@
 
 import { motion } from 'framer-motion'
 import { useState } from 'react'
-import { Settings, User, Bell, Shield, Database, Palette, Save } from 'lucide-react'
+import { Settings, User, Bell, Shield, Database, Palette, Save, Upload, FileText, CheckCircle, AlertCircle } from 'lucide-react'
 import Sidebar from '@/components/layout/Sidebar'
 import Topbar from '@/components/layout/Topbar'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
+import ProtectedRoute from '@/components/auth/ProtectedRoute'
+import FileUploadComponent from '@/components/upload/FileUploadComponent'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState('profile')
@@ -39,13 +43,18 @@ export default function SettingsPage() {
   })
 
   const [isSaving, setIsSaving] = useState(false)
+  const [uploadFile, setUploadFile] = useState<File | null>(null)
+  const [uploading, setUploading] = useState(false)
+  const [uploadStatus, setUploadStatus] = useState<'idle' | 'success' | 'error'>('idle')
+  const [uploadMessage, setUploadMessage] = useState('')
 
   const tabs = [
     { id: 'profile', label: 'Profile', icon: User },
     { id: 'notifications', label: 'Notifications', icon: Bell },
     { id: 'system', label: 'System', icon: Database },
     { id: 'appearance', label: 'Appearance', icon: Palette },
-    { id: 'security', label: 'Security', icon: Shield }
+    { id: 'security', label: 'Security', icon: Shield },
+    { id: 'data-upload', label: 'Data Upload', icon: Upload }
   ]
 
   const handleSave = async () => {
@@ -66,10 +75,53 @@ export default function SettingsPage() {
     }))
   }
 
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (file) {
+      setUploadFile(file)
+      setUploadStatus('idle')
+      setUploadMessage('')
+    }
+  }
+
+  const handleFileSubmit = async () => {
+    if (!uploadFile) return
+
+    setUploading(true)
+    setUploadStatus('idle')
+
+    try {
+      const formData = new FormData()
+      formData.append('file', uploadFile)
+
+      const response = await fetch('http://localhost:5000/api/upload-data', {
+        method: 'POST',
+        body: formData,
+      })
+
+      const result = await response.json()
+
+      if (response.ok) {
+        setUploadStatus('success')
+        setUploadMessage(`File processed successfully! ${result.predictions_count} predictions generated.`)
+        setUploadFile(null)
+      } else {
+        setUploadStatus('error')
+        setUploadMessage(result.error || 'Upload failed')
+      }
+    } catch {
+      setUploadStatus('error')
+      setUploadMessage('Network error. Please check if the backend server is running.')
+    } finally {
+      setUploading(false)
+    }
+  }
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Sidebar />
-      <Topbar />
+    <ProtectedRoute>
+      <div className="min-h-screen bg-gray-50">
+        <Sidebar />
+        <Topbar />
       
       <main className="pt-24 min-h-screen">
         <div className="p-3 sm:p-4 md:p-6 lg:p-8">
@@ -390,12 +442,52 @@ export default function SettingsPage() {
                       </div>
                     </div>
                   )}
+
+                  {/* Data Upload Settings */}
+                  {activeTab === 'data-upload' && (
+                    <FileUploadComponent
+                      onUploadSuccess={(result) => {
+                        toast.success(result.message, {
+                          position: "top-right",
+                          autoClose: 5000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                        })
+                      }}
+                      onUploadError={(error) => {
+                        toast.error(error, {
+                          position: "top-right",
+                          autoClose: 5000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                        })
+                      }}
+                    />
+                  )}
                 </Card>
               </motion.div>
             </div>
           </motion.div>
         </div>
       </main>
+      
+      {/* Toast Container */}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
+    </ProtectedRoute>
   )
 }
