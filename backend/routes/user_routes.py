@@ -5,26 +5,9 @@ User-specific routes for profile and data management
 from flask import Blueprint, request, jsonify
 from auth.jwt_utils import token_required
 from models.user import User
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy import create_engine, text
-import os
-from dotenv import load_dotenv
+from database import SessionLocal
 from datetime import datetime, timedelta
 import json
-
-load_dotenv()
-
-# Database configuration
-DB_HOST = os.getenv('DB_HOST', 'localhost')
-DB_PORT = int(os.getenv('DB_PORT', '3306'))
-DB_NAME = os.getenv('DB_NAME', 'churn_db')
-DB_USER = os.getenv('DB_USER', 'root')
-DB_PASSWORD = os.getenv('DB_PASSWORD', 'password')
-
-# Create database engine
-db_url = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
-engine = create_engine(db_url)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # Create blueprint
 user_bp = Blueprint('user', __name__, url_prefix='/api/user')

@@ -18,8 +18,7 @@ from routes.cohort_routes import cohort_bp
 from auth.jwt_utils import token_required
 from models.user import User, Base
 from models.prediction import ChurnPrediction
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from database import SessionLocal, engine
 from services.socket_service import init_socket_service
 from flask import request
 
@@ -34,18 +33,6 @@ CORS(app)
 
 # Initialize Socket.IO
 socketio = SocketIO(app, cors_allowed_origins="*")
-
-# Database configuration
-DB_HOST = os.getenv('DB_HOST', 'localhost')
-DB_PORT = int(os.getenv('DB_PORT', '3306'))
-DB_NAME = os.getenv('DB_NAME', 'churn_db')
-DB_USER = os.getenv('DB_USER', 'root')
-DB_PASSWORD = os.getenv('DB_PASSWORD', 'password')
-
-# Create database engine
-db_url = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
-engine = create_engine(db_url)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # Initialize database tables
 def init_database():

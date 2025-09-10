@@ -9,27 +9,10 @@ from flask_socketio import emit, join_room, leave_room
 from auth.jwt_utils import jwt_manager
 from models.user import User
 from models.prediction import ChurnPrediction
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy import create_engine
-import os
-from dotenv import load_dotenv
+from database import SessionLocal
 import random
 import threading
 import time
-
-load_dotenv()
-
-# Database configuration
-DB_HOST = os.getenv('DB_HOST', 'localhost')
-DB_PORT = int(os.getenv('DB_PORT', '3306'))
-DB_NAME = os.getenv('DB_NAME', 'churn_db')
-DB_USER = os.getenv('DB_USER', 'root')
-DB_PASSWORD = os.getenv('DB_PASSWORD', 'password')
-
-# Create database engine
-db_url = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
-engine = create_engine(db_url)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 class SocketService:
     """Service for managing real-time Socket.IO communications"""

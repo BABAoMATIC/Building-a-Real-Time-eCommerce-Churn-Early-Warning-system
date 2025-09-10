@@ -190,7 +190,7 @@ export default function CohortsSection() {
       setEditingCohort(null)
     } catch (error) {
       console.error('Error submitting cohort:', error)
-      toast.error('Failed to save cohort')
+      showError('Failed to save cohort')
     } finally {
       setIsSubmitting(false)
     }
@@ -217,7 +217,7 @@ export default function CohortsSection() {
       max_website_visits: cohort.criteria.website_visits_range?.max?.toString() || ''
     }
     
-    setEditingCohort({ ...cohort, formData })
+    setEditingCohort(cohort)
     setIsFormOpen(true)
   }
 
@@ -454,7 +454,24 @@ export default function CohortsSection() {
           setEditingCohort(null)
         }}
         onSubmit={handleFormSubmit}
-        initialData={editingCohort?.formData || null}
+        initialData={editingCohort ? {
+          name: editingCohort.name,
+          description: editingCohort.description || '',
+          engagement_level: editingCohort.criteria.engagement_level || '',
+          churn_risk_level: editingCohort.criteria.churn_risk_level || '',
+          min_age: editingCohort.criteria.age_range?.min?.toString() || '',
+          max_age: editingCohort.criteria.age_range?.max?.toString() || '',
+          min_total_purchases: editingCohort.criteria.total_purchases_range?.min?.toString() || '',
+          max_total_purchases: editingCohort.criteria.total_purchases_range?.max?.toString() || '',
+          min_avg_order_value: editingCohort.criteria.avg_order_value_range?.min?.toString() || '',
+          max_avg_order_value: editingCohort.criteria.avg_order_value_range?.max?.toString() || '',
+          min_days_since_last_purchase: editingCohort.criteria.days_since_last_purchase_range?.min?.toString() || '',
+          max_days_since_last_purchase: editingCohort.criteria.days_since_last_purchase_range?.max?.toString() || '',
+          min_email_opens: editingCohort.criteria.email_opens_range?.min?.toString() || '',
+          max_email_opens: editingCohort.criteria.email_opens_range?.max?.toString() || '',
+          min_website_visits: editingCohort.criteria.website_visits_range?.min?.toString() || '',
+          max_website_visits: editingCohort.criteria.website_visits_range?.max?.toString() || ''
+        } : null}
         isLoading={isSubmitting}
       />
 

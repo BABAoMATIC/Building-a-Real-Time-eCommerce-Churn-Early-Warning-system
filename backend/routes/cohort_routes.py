@@ -6,7 +6,7 @@ from flask import Blueprint, request, jsonify, g
 from auth.jwt_utils import token_required
 from models.cohort import Cohort
 from models.prediction import ChurnPrediction
-from backend.app import SessionLocal
+from database import SessionLocal
 from datetime import datetime
 
 cohort_bp = Blueprint('cohort', __name__, url_prefix='/api/cohorts')

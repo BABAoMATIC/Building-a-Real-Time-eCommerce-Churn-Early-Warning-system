@@ -128,23 +128,25 @@ export default function FileUploadComponent({
     setUploadResult(null)
     setProcessingStage('Preparing upload...')
 
+    // Simulate progress updates with realistic stages
+    const progressStages = [
+      { progress: 10, stage: 'Uploading file...' },
+      { progress: 30, stage: 'Validating file format...' },
+      { progress: 50, stage: 'Processing data...' },
+      { progress: 70, stage: 'Running predictions...' },
+      { progress: 90, stage: 'Saving results...' }
+    ]
+
+    let currentStageIndex = 0
+    let progressInterval: NodeJS.Timeout | null = null
+
     try {
       // Create FormData
       const formData = new FormData()
       formData.append('file', selectedFile)
       formData.append('user_id', user.id.toString())
-
-      // Simulate progress updates with realistic stages
-      const progressStages = [
-        { progress: 10, stage: 'Uploading file...' },
-        { progress: 30, stage: 'Validating file format...' },
-        { progress: 50, stage: 'Processing data...' },
-        { progress: 70, stage: 'Running predictions...' },
-        { progress: 90, stage: 'Saving results...' }
-      ]
-
-      let currentStageIndex = 0
-      const progressInterval = setInterval(() => {
+      
+      progressInterval = setInterval(() => {
         setUploadProgress(prev => {
           if (currentStageIndex < progressStages.length && prev >= progressStages[currentStageIndex].progress) {
             setProcessingStage(progressStages[currentStageIndex].stage)
@@ -152,7 +154,7 @@ export default function FileUploadComponent({
           }
           
           if (prev >= 95) {
-            clearInterval(progressInterval)
+            if (progressInterval) clearInterval(progressInterval)
             setProcessingStage('Finalizing...')
             return prev
           }
@@ -163,7 +165,7 @@ export default function FileUploadComponent({
       // Upload file
       const response = await authApi.uploadData(formData)
       
-      clearInterval(progressInterval)
+      if (progressInterval) clearInterval(progressInterval)
       setUploadProgress(100)
       setProcessingStage('Complete!')
 
@@ -187,7 +189,7 @@ export default function FileUploadComponent({
         onUploadError?.(response.error || 'Upload failed')
       }
     } catch (error) {
-      clearInterval(progressInterval)
+      if (progressInterval) clearInterval(progressInterval)
       const errorMessage = error instanceof Error ? error.message : 'Upload failed'
       const result: UploadResult = {
         success: false,
@@ -357,11 +359,12 @@ export default function FileUploadComponent({
             className="mt-4"
           >
             {uploadResult.success ? (
-              <SuccessMessage
-                title="Upload Successful"
-                message={uploadResult.message}
-                onDismiss={() => setUploadResult(null)}
-              >
+              <div>
+                <SuccessMessage
+                  title="Upload Successful"
+                  message={uploadResult.message}
+                  onDismiss={() => setUploadResult(null)}
+                />
                 {uploadResult.data && (
                   <div className="mt-3 p-3 bg-green-100 rounded-lg">
                     <p className="text-sm font-medium text-green-800 mb-2">Processing Results:</p>
@@ -381,7 +384,7 @@ export default function FileUploadComponent({
                     </div>
                   </div>
                 )}
-              </SuccessMessage>
+              </div>
             ) : (
               <ErrorMessage
                 title="Upload Failed"
