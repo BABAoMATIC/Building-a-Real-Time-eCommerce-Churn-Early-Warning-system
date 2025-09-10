@@ -193,4 +193,4 @@ For support, email support@churnguard.com or create an issue in this repository.
 
 ---
 
-**ChurnGuard** - Protecting your customer relationships with AI-powered insights 🛡️
+**ChurnGuard** - Protecting your customer relationships with AI-powered insights 🛡️# Building-a-Real-Time-eCommerce-Churn-Early-Warning-system
